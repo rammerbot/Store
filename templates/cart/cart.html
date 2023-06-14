@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="message-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% for item in cart_items %}
+    <p><strong>Producto: {{ item.product.name }}</strong></p>
+    <img src="{{item.product.image.url}}" alt="{{produc.image.url}}" style="height: 150px;">
+    <p><strong>Descripcion:</strong> {{item.product.description|safe}}</p>
+    <p><strong>Precio por unidad:</strong> {{ item.product.price }}</p>
+    <p><strong>Cantidad:</strong> {{ item.total_quantity }}</p>
+    <p><strong>Precio total:</strong> {{ item.total_price }}</p>
+    <form action="{% url 'app_cart:detele_item' %}" method="POST">{% csrf_token %}
+        <input type="number" name="product_id" value="{{item.product.id}}" style="display: none;">
+        <button type="submit">Eliminar Producto</button>
+    </form>
+    <hr>
+{% endfor %}
+</body>
+</html>

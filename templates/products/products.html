@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+</head>
+<body>
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="message-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% for product in products %}
+        <p>Nombre: {{product.name}}</p>
+        <img src="{{product.image.url}}" alt="{{produc.image.url}}" style="height: 150px;">
+        <p>Descripcion: {{product.description|safe}}</p>
+        <p>Precio: {{product.price}}</p>
+        <form action="{% url 'app_cart:add_to_cart' %}" method="get">{% csrf_token %}
+            <input type="number" name="product_id" value="{{product.id}}" style="display: none;">
+            <input type="number" name="quantity" placeholder="Cantidad" required>
+            <button type="submit">Agregar al carrito</button>
+        </form>
+    {% endfor %}
+</body>
+</html>
